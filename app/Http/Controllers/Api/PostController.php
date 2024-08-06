@@ -5,47 +5,54 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Post\PostStoreRequest;
 use App\Http\Requests\Api\Post\PostUpdateRequest;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
-class PostController extends Controller
+class PostController extends Controller implements HasMiddleware
 {
     public function index()
     {
-        session(['redirect-posts-route' => 'posts.index']);
+        // session(['redirect-posts-route' => 'posts.index']);
 
         $posts = Post::latest()->paginate(5);
 
         return response()->json([
-            'posts' => $posts
+            'posts' => PostResource::collection($posts),
+            // 'redirect-posts-route' => session()->get('redirect-posts-route')
         ]);
-
-        // return view('posts.index', ['posts' => $posts]);
     }
 
     public function latestPosts()
     {
-        session(['redirect-posts-route' => 'home']);
+        // session(['redirect-posts-route' => 'home']);
 
         $posts = Post::latest()->paginate(5);
 
-        return view('home', ['posts' => $posts]);
+        return response()->json([
+            'posts' => PostResource::collection($posts),
+            // 'redirect-posts-route' => session()->get('redirect-posts-route')
+        ]);
     }
 
     public function myPosts()
     {
-        session(['redirect-posts-route' => 'posts.my_posts']);
+        // session(['redirect-posts-route' => 'posts.my_posts']);
 
         $posts = Post::where('user_id', '=', auth()->user()->id)->latest()->paginate(5);
 
-        return view('posts.my-posts', ['posts' => $posts]);
+        return response()->json([
+            'posts' => PostResource::collection($posts),
+            // 'redirect-posts-route' => session()->get('redirect-posts-route')
+        ]);
     }
 
-    public function create()
-    {
-        return view('posts.create');
-    }
+    // public function create()
+    // {
+    //     return view('posts.create');
+    // }
 
     public function store(PostStoreRequest $request)
     {
@@ -58,17 +65,23 @@ class PostController extends Controller
                 ->toMediaCollection('imgs');
         }
 
-        return to_route('posts.my_posts')->with('status', ['Post Has been created successfully']);
+        return response()->json([
+            'post' => [new PostResource($post)]
+        ]);
     }
 
     public function show(Post $post)
     {
-        return view('posts.show', ['post' => $post]);
+        return response()->json([
+            'post' => new PostResource($post),
+        ]);
     }
 
     public function edit(Post $post)
     {
-        return view('posts.edit', ['post' => $post]);
+        return response()->json([
+            'post' => new PostResource($post)
+        ]);
     }
 
     public function update(Post $post, PostUpdateRequest $request)
@@ -91,7 +104,11 @@ class PostController extends Controller
     {
         $post->delete();
 
-        return to_route(session('redirect-posts-route'))->with('status', 'Post has been deleted successfully');
+        return response()->json([
+            'message' => 'post has been deleted successfully'
+        ]);
+
+        // return to_route(session('redirect-posts-route'))->with('status', 'Post has been deleted successfully');
     }
 
     public function search(Request $request)
@@ -100,13 +117,15 @@ class PostController extends Controller
 
         $posts = Post::where('title', 'like', "%$search%")->paginate(5);
 
-        return view('posts.search-results', ['posts' => $posts]);
+        return response()->json([
+            'posts' => PostResource::collection($posts),
+        ]);
     }
 
     public static function middleware()
     {
         return [
-            new Middleware('permission:Create Post', only: ['create', 'store']),
+            new Middleware('permission:Create Post', only: ['create', 'store', 'myPosts']),
             new Middleware('permission:Edit Post', only: ['edit', 'update']),
             new Middleware('permission:Delete Post', only: ['destroy']),
         ];

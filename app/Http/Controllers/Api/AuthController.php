@@ -109,8 +109,9 @@ class AuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'login success',
+                // the parameter for createToken is token name
+                // and then you take the plain text token out of all the returned data.
                 'token' => $user->createToken('API Token')->plainTextToken,
-                // 'token' => $user->createToken()
             ]);
         } catch (Throwable $e) {
             return response()->json(
@@ -121,15 +122,6 @@ class AuthController extends Controller
                 500
             );
         }
-    }
-
-    public function profile()
-    {
-        return response()->json([
-            'status' => true,
-            'message' => 'User Profile',
-            'data' => auth()->user(),
-        ]);
     }
 
     // public function logout()
