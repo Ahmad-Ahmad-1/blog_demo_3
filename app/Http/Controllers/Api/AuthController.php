@@ -109,8 +109,8 @@ class AuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'login success',
-                // 'token' => $user->createToken('API Token')->plainTextToken,
-                'token' => $user->createToken()
+                'token' => $user->createToken('API Token')->plainTextToken,
+                // 'token' => $user->createToken()
             ]);
         } catch (Throwable $e) {
             return response()->json(
