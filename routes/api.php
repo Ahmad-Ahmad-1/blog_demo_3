@@ -15,7 +15,7 @@ Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
 Route::get('/posts/search', [PostController::class, 'search'])->name('posts.search');
 
 Route::middleware('auth:sanctum')->group(function () {
-  // Route::get('/profiles', [ProfileController::class, 'show'])->name('profiles.show');
+  Route::get('/profiles', [ProfileController::class, 'show'])->name('profiles.show');
   // Route::get('/profiles', [ProfileController::class, 'edit'])->name('profiles.edit');
 
   Route::resource('/profiles', ProfileController::class)->only(['show', 'edit']);
@@ -32,8 +32,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
-Route::get('/test', function(){return 'test';});
+Route::get('/app', function () {
+  // return view('layouts.app');
+  return view('layouts.guest');
+  // return view('layouts.test');
+});
+
+// Route::get('/test', function () {
+//   return 'test';
+// });
 
 /*
-
 */
