@@ -72,8 +72,12 @@ class PostController extends Controller implements HasMiddleware
 
     public function show(Post $post)
     {
+        // return response()->json([
+        //     'post' => new PostResource($post),
+        // ]);
+
         return response()->json([
-            'post' => new PostResource($post),
+            'post' => 'post'
         ]);
     }
 

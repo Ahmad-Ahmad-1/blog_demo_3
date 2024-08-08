@@ -22,12 +22,12 @@ class RoleController extends Controller implements HasMiddleware
 
     public function show(Role $role)
     {
-        return 'test';
+        // return 'test';
 
-        // return view('roles.show', [
-        //     'role' => $role,
-        //     'permissions' => $role->getAllPermissions()->pluck('name')->toArray()
-        // ]);
+        return view('roles.show', [
+            'role' => $role,
+            'permissions' => $role->getAllPermissions()->pluck('name')->toArray()
+        ]);
     }
 
     // public function create()

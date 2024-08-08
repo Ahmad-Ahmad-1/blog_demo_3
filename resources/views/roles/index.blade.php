@@ -2,6 +2,8 @@
 
     @extends('layouts.app')
 
+    @section('title', 'Roles')
+
     <x-flash-messages type="success" class="w-50" />
 
     <x-search :action="route('roles.search')" placeholder="Search Roles" />
