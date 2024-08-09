@@ -79,12 +79,12 @@
                             </x-slot>
 
                             <x-slot name="content">
-                                <x-dropdown-link :href="route('profiles.show')">
+                                <x-dropdown-link :href="route('profiles.show', auth()->user()->id)">
                                     {{ __('Profile') }}
                                 </x-dropdown-link>
 
                                 <!-- Authentication -->
-                                <form method="POST" action="{{ route('logout') }}">
+                                {{-- <form method="POST" action="{{ route('logout') }}">
                                     @csrf
 
                                     <x-dropdown-link :href="route('logout')"
@@ -92,7 +92,8 @@
                                                 this.closest('form').submit();">
                                         {{ __('Log Out') }}
                                     </x-dropdown-link>
-                                </form>
+                                </form> --}}
+
                             </x-slot>
                         </x-dropdown>
                     </div>
@@ -127,12 +128,12 @@
                 </div>
 
                 <div class="mt-3 space-y-1">
-                    <x-responsive-nav-link :href="route('profiles.show')">
+                    <x-responsive-nav-link :href="route('profiles.show', auth()->user()->id)">
                         {{ __('Profile') }}
                     </x-responsive-nav-link>
 
                     <!-- Authentication -->
-                    <form method="POST" action="{{ route('logout') }}">
+                    {{-- <form method="POST" action="{{ route('logout') }}">
                         @csrf
 
                         <x-responsive-nav-link :href="route('logout')"
@@ -140,7 +141,9 @@
                                         this.closest('form').submit();">
                             {{ __('Log Out') }}
                         </x-responsive-nav-link>
-                    </form>
+
+                    </form> --}}
+
                 </div>
             </div>
         @endauth

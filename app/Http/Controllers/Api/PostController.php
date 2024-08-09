@@ -21,6 +21,7 @@ class PostController extends Controller implements HasMiddleware
 
         return response()->json([
             'posts' => PostResource::collection($posts),
+            'current_page' => $posts->currentPage(),
             // 'redirect-posts-route' => session()->get('redirect-posts-route')
         ]);
     }
@@ -49,10 +50,10 @@ class PostController extends Controller implements HasMiddleware
         ]);
     }
 
-    // public function create()
-    // {
-    //     return view('posts.create');
-    // }
+    public function create()
+    {
+        return view('posts.create');
+    }
 
     public function store(PostStoreRequest $request)
     {
@@ -72,13 +73,11 @@ class PostController extends Controller implements HasMiddleware
 
     public function show(Post $post)
     {
-        // return response()->json([
-        //     'post' => new PostResource($post),
-        // ]);
-
         return response()->json([
-            'post' => 'post'
+            'post' => new PostResource($post),
         ]);
+
+        // return view('posts.show');
     }
 
     public function edit(Post $post)

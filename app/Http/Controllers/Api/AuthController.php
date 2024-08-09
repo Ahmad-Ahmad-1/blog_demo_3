@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Password;
 use Throwable;
 
-// Authentication functions
 class AuthController extends Controller
 {
     public function register(Request $request)
@@ -18,16 +18,15 @@ class AuthController extends Controller
             $user = Validator::make(
                 $request->all(),
                 [
-                    'name' => 'required',
-                    'email' => 'required|email|unique:users,email',
-                    'password' => 'required|min:8',
-                    // '_token' => csrf_token()
-                ]
+                    'name' => ['required'],
+                    'email' => ['required', 'email', 'unique:users,email'],
+                    'password' => [
+                        'required',
+                        'confirmed',
+                        Password::min(8)->letters()->numbers()->mixedCase()->symbols()->uncompromised(),
+                    ],
+                ],
             );
-
-            // is it necessary here to return anything other than valdation errors
-            // (which are gonna returned without any intervention from the developer).
-            // if no, then the whole if condition here isn't necessary.
 
             if ($user->fails()) {
                 return response()->json(
@@ -53,8 +52,7 @@ class AuthController extends Controller
                 [
                     'status' => true,
                     'message' => 'user registered successfully',
-                    // 'user data' => ['email' => $createdUser->email, 'password' => $createdUser->password]
-                    // We might not need this:
+                    // We might not need this because this is register:
                     'token' => $createdUser->createToken("API Token")->plainTextToken,
                 ]
             );
@@ -92,8 +90,6 @@ class AuthController extends Controller
                 );
             }
 
-            // If the credentials match those of a user in the database, Auth::attempt will log in the user and return true.
-            // Otherwise, it will return false.
             if (!Auth::attempt($request->only(['email', 'password']))) {
                 return response()->json(
                     [

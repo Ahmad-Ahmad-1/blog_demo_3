@@ -1,12 +1,4 @@
-{{-- <x-app-layout title="Manage Roles"> --}}
-
-@extends('layouts.app')
-
-@section('title', "Manage Roles")
-
-@section('content')
-
-    <x-flash-messages type="success" class="w-50" />
+<x-app-layout title="Search Results">
 
     <x-search :action="route('roles.search')" placeholder="Search Roles" />
 
@@ -37,13 +29,13 @@
                         </td>
                     </tr>
                 @empty
-                    <tr>
-                        <td colspan="4">
-                            <div class="text-danger">
-                                No Roles!
-                            </div>
-                        </td>
-                    </tr>
+                <tr>
+                    <td colspan="3">
+                        <span class="text-danger">
+                            There is no Role that matches your search!
+                        </span>
+                    </td>
+                </tr>
                 @endforelse
 
             </tbody>
@@ -51,6 +43,4 @@
         {{ $roles->links() }}
     </div>
 
-@endsection
-
-{{-- </x-app-layout> --}}
+</x-app-layout>

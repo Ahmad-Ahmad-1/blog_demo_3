@@ -1,46 +1,49 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\api\PostController;
-use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ProfileController;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::get('/', [PostController::class, 'latestPosts'])->name('home');
-Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+Route::resource('/posts', PostController::class)->only('index');
 Route::get('/posts/search', [PostController::class, 'search'])->name('posts.search');
 
 Route::middleware('auth:sanctum')->group(function () {
-  Route::get('/profiles', [ProfileController::class, 'show'])->name('profiles.show');
-  // Route::get('/profiles', [ProfileController::class, 'edit'])->name('profiles.edit');
 
-  Route::resource('/profiles', ProfileController::class)->only(['show', 'edit']);
+  Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+  Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+  Route::patch('/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update_password');
+  Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
   Route::get('/posts/my-posts', [PostController::class, 'myPosts'])->name('posts.my_posts');
   Route::resource('/posts', PostController::class)->except(['show', 'index']);
 
   Route::get('/roles/search', [RoleController::class, 'search'])->name('roles.search');
-  Route::resource('/roles', RoleController::class);
+  Route::resource('/roles', RoleController::class)->except('create');
+
+  // Route::post('/roles', [RoleController::class, 'store'])->name('roles.store');
 
   Route::get('/users/search', [UserController::class, 'search'])->name('users.search');
   Route::resource('/users', UserController::class);
 });
 
-Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+// Route::get('/roles', RoleController::class)->only('create')->middleware('web');
+Route::resource('/roles', RoleController::class)->only('create')->middleware('web');
+
+Route::resource('/posts', PostController::class)->only('show');
 
 Route::get('/app', function () {
-  // return view('layouts.app');
-  return view('layouts.guest');
-  // return view('layouts.test');
+  return view('roles.index');
 });
 
-// Route::get('/test', function () {
-//   return 'test';
-// });
-
 /*
+  Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+  Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+  Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 */
