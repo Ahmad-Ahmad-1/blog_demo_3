@@ -30,7 +30,7 @@ class PostController extends Controller implements HasMiddleware
     {
         // session(['redirect-posts-route' => 'home']);
 
-        $posts = Post::latest()->paginate(5);
+        $posts = Post::latest()->limit(8)->get();
 
         return response()->json([
             'posts' => PostResource::collection($posts),
@@ -46,14 +46,15 @@ class PostController extends Controller implements HasMiddleware
 
         return response()->json([
             'posts' => PostResource::collection($posts),
+            'current_page' => $posts->currentPage(),
             // 'redirect-posts-route' => session()->get('redirect-posts-route')
         ]);
     }
 
-    public function create()
-    {
-        return view('posts.create');
-    }
+    // public function create()
+    // {
+    //     return view('posts.create');
+    // }
 
     public function store(PostStoreRequest $request)
     {
@@ -100,7 +101,16 @@ class PostController extends Controller implements HasMiddleware
                 ->toMediaCollection('imgs');
         }
 
-        return to_route('posts.show', [$post->id])->with('status', 'Post Updated Successfully');
+        // to be implemented
+        // else {
+        //     $post->deleteMedia('imgs');
+        // }
+
+        return response()->json([
+            'post' => new PostResource($post)
+        ]);
+
+        // return to_route('posts.show', [$post->id])->with('status', 'Post Updated Successfully');
     }
 
     public function destroy(Post $post)
@@ -122,6 +132,7 @@ class PostController extends Controller implements HasMiddleware
 
         return response()->json([
             'posts' => PostResource::collection($posts),
+            'current_page' => $posts->currentPage(),
         ]);
     }
 
