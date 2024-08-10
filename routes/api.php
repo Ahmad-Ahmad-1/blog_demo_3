@@ -15,35 +15,32 @@ Route::resource('/posts', PostController::class)->only('index');
 Route::get('/posts/search', [PostController::class, 'search'])->name('posts.search');
 
 Route::middleware('auth:sanctum')->group(function () {
-
   Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
   Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
   Route::patch('/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update_password');
   Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
+  
   Route::get('/posts/my-posts', [PostController::class, 'myPosts'])->name('posts.my_posts');
   Route::resource('/posts', PostController::class)->except(['show', 'index']);
-
+  
   Route::get('/roles/search', [RoleController::class, 'search'])->name('roles.search');
-  Route::resource('/roles', RoleController::class)->except('create');
-
-  // Route::post('/roles', [RoleController::class, 'store'])->name('roles.store');
+  Route::resource('/roles', RoleController::class);
 
   Route::get('/users/search', [UserController::class, 'search'])->name('users.search');
   Route::resource('/users', UserController::class);
 });
 
-// Route::get('/roles', RoleController::class)->only('create')->middleware('web');
-Route::resource('/roles', RoleController::class)->only('create')->middleware('web');
-
 Route::resource('/posts', PostController::class)->only('show');
 
-Route::get('/app', function () {
-  return view('roles.index');
-});
+// Route::get('/app', function () {
+//   return view('roles.index');
+// });
 
 /*
-  Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-  Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-  Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+  Roles:
+
+  - will sessions work on create and edit files?
+
+  store: route not found.
+
 */

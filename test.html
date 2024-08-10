@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="">
 
-    <title> Super Admin </title>
+    <title> Search Results </title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -20,9 +20,10 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
 
-    <script type="module" src="http://[::1]:5173/@vite/client"></script>
-    <link rel="stylesheet" href="http://[::1]:5173/resources/css/app.css" />
-    <script type="module" src="http://[::1]:5173/resources/js/app.js"></script>
+    <link rel="preload" as="style" href="http://127.0.0.1:8000/build/assets/app-Y0H2_mRA.css" />
+    <link rel="modulepreload" href="http://127.0.0.1:8000/build/assets/app-CH09qwMe.js" />
+    <link rel="stylesheet" href="http://127.0.0.1:8000/build/assets/app-Y0H2_mRA.css" />
+    <script type="module" src="http://127.0.0.1:8000/build/assets/app-CH09qwMe.js"></script>
 </head>
 
 <body class="font-sans antialiased">
@@ -34,7 +35,7 @@
                     <div class="flex">
                         <!-- Logo -->
                         <div class="shrink-0 flex items-center">
-                            <a href="http://localhost/sanctum_auth_crud_api_rubyvidhya_ammu/public/api">
+                            <a href="http://127.0.0.1:8000/api">
 
                                 <div class="p-2 bg-black rounded text-white fw-bold">Blog</div>
                             </a>
@@ -45,28 +46,28 @@
                         <!-- Navigation Links -->
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                             <a class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
-                                href="http://localhost/sanctum_auth_crud_api_rubyvidhya_ammu/public/api/posts/create">
+                                href="http://127.0.0.1:8000/api/posts/create">
                                 Create Post
                             </a>
                         </div>
 
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                             <a class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
-                                href="http://localhost/sanctum_auth_crud_api_rubyvidhya_ammu/public/api/posts/my-posts">
+                                href="http://127.0.0.1:8000/api/posts/my-posts">
                                 My Posts
                             </a>
                         </div>
 
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                             <a class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
-                                href="http://localhost/sanctum_auth_crud_api_rubyvidhya_ammu/public/api/roles">
+                                href="http://127.0.0.1:8000/api/roles">
                                 Manage Roles
                             </a>
                         </div>
 
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                             <a class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
-                                href="http://localhost/sanctum_auth_crud_api_rubyvidhya_ammu/public/api/users">
+                                href="http://127.0.0.1:8000/api/users">
                                 Manage Users
                             </a>
                         </div>
@@ -101,7 +102,7 @@
                                     style="display: none;" @click="open = false">
                                     <div class="rounded-md ring-1 ring-black ring-opacity-5 py-1 bg-white">
                                         <a class="block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
-                                            href="http://localhost/sanctum_auth_crud_api_rubyvidhya_ammu/public/api/profiles/4">Profile</a>
+                                            href="http://127.0.0.1:8000/api/profile?7">Profile</a>
 
                                         <!-- Authentication -->
                                     </div>
@@ -138,7 +139,7 @@
 
                     <div class="mt-3 space-y-1">
                         <a class="block w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out"
-                            href="http://localhost/sanctum_auth_crud_api_rubyvidhya_ammu/public/api/profiles/4">
+                            href="http://127.0.0.1:8000/api/profile?7">
                             Profile
                         </a>
 
@@ -155,33 +156,49 @@
         <!-- Page Content -->
         <main>
 
-            <div class="card w-50 m-auto mt-3">
+            <nav class="navbar m-auto mt-3 d-flex justify-content-center flex-column">
+                <form action="http://127.0.0.1:8000/api/roles/search" method="GET" class="d-flex" role="search">
+                    <input  class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm form-control me-2" type="text" name="search" placeholder="Search Roles" aria-label="Search" required="required">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </nav>
+            <div>
 
-                <div class="card-body">
-                    <h5 class="card-title fw-bold h4">
-                        <span>Role:</span>
-                        <br>
-                        <div class="bg-primary p-2 text-white rounded d-inline-block mt-2">Super Admin</div>
-                    </h5>
-
-                    <h5 class="card-title fw-bold h4">
-                        <span>Permissions:</span>
-                        <br>
-                        <div class="bg-primary p-2 text-white rounded d-inline-block mt-2">All</div>
-                    </h5>
+                <div class="text-center mt-3">
+                    <a class="btn btn-success m-auto" href="http://127.0.0.1:8000/api/roles/create">Create Role</a>
                 </div>
 
-                <div class="mt-3">
+                <table class="table w-50 m-auto mt-3 w-fit p-2">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Roles</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                    <div class="p-3">
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                Super Admin
+                            </td>
+                            <td>
+                                <a href="http://127.0.0.1:8000/api/roles/1" class="btn btn-primary">Show</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>
+                                Admin
+                            </td>
+                            <td>
+                                <a href="http://127.0.0.1:8000/api/roles/2" class="btn btn-primary">Show</a>
+                            </td>
+                        </tr>
 
-
-                        <a href="http://localhost/sanctum_auth_crud_api_rubyvidhya_ammu/public"
-                            class="btn btn-success">Back</a>
-
-                    </div>
-
-                </div>
+                    </tbody>
+                </table>
 
             </div>
 

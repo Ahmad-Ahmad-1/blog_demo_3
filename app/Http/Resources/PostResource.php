@@ -14,10 +14,9 @@ class PostResource extends JsonResource
             'title' => $this->title,
             'caption' => $this->caption,
             'user_id' => $this->user_id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'Create Date' => $this->created_at,
+            'Last Update' => $this->updated_at,
             'imgUrl' => $this->getFirstMediaUrl('imgs'),
-            'postUrl' => url('api/posts/' . $this->id),
         ];
     }
 }

@@ -62,7 +62,6 @@ class PostController extends Controller implements HasMiddleware
 
         if ($request->hasFile('img')) {
             $post->addMediaFromRequest('img')
-                ->withResponsiveImages()
                 ->usingName($post->title)
                 ->toMediaCollection('imgs');
         }
@@ -99,12 +98,9 @@ class PostController extends Controller implements HasMiddleware
                 ->withResponsiveImages()
                 ->usingName($post->title)
                 ->toMediaCollection('imgs');
+        } else {
+            $post->deleteMedia('imgs');
         }
-
-        // to be implemented
-        // else {
-        //     $post->deleteMedia('imgs');
-        // }
 
         return response()->json([
             'post' => new PostResource($post)

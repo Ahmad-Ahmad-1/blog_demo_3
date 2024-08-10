@@ -19,11 +19,8 @@ class User extends Authenticatable
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+    protected $guard_name = ['web', 'sanctum'];
+
     protected $hidden = [
         'password',
         'remember_token',

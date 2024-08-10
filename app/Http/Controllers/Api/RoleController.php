@@ -28,11 +28,9 @@ class RoleController extends Controller implements HasMiddleware
 
     public function create()
     {
-        // return 'test';
-
-        // return view('roles.create', [
-        //     'permissions' => Permission::pluck('name')->toArray(),
-        // ]);
+        return view('roles.create', [
+            'permissions' => Permission::pluck('name')->toArray(),
+        ]);
     }
 
     public function store(RoleStoreRequest $request)
@@ -41,7 +39,7 @@ class RoleController extends Controller implements HasMiddleware
 
         $role->syncPermissions($request->safe()->only('permissions'));
 
-        // return back()->with('status', 'Role has been created successfully');
+        return back()->with('status', 'Role has been created successfully');
     }
 
     public function edit(Role $role)
@@ -62,14 +60,14 @@ class RoleController extends Controller implements HasMiddleware
 
         $role->syncPermissions($request->safe()->only('permissions'));
 
-        // return back()->with('status', 'Role has been updated successfully');
+        return back()->with('status', 'Role has been updated successfully');
     }
 
     public function destroy(Role $role)
     {
         $role->delete();
 
-        // return to_route('roles.index')->with('status', 'Role has been deleted successfully');
+        return to_route('roles.index')->with('status', 'Role has been deleted successfully');
     }
 
     public function search(Request $request)
@@ -87,4 +85,7 @@ class RoleController extends Controller implements HasMiddleware
             new Middleware('role:Super Admin')
         ];
     }
+    /*
+    - the middleware checks the role for the currently authenticated guard.
+    */
 }

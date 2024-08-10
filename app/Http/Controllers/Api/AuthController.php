@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rules\Password;
 use Throwable;
+use App\Models\User;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
@@ -23,7 +23,7 @@ class AuthController extends Controller
                     'password' => [
                         'required',
                         'confirmed',
-                        Password::min(8)->letters()->numbers()->mixedCase()->symbols()->uncompromised(),
+                        // Password::min(8)->letters()->numbers()->mixedCase()->symbols()->uncompromised(),
                     ],
                 ],
             );
@@ -120,14 +120,14 @@ class AuthController extends Controller
         }
     }
 
-    // public function logout()
-    // {
-    //     auth()->user()->tokens()->delete();
+    public function logout()
+    {
+        auth()->user()->tokens()->delete();
 
-    //     return response()->json([
-    //         'status' => true,
-    //         'message' => 'user logged out',
-    //         'data' => [],
-    //     ]);
-    // }
+        return response()->json([
+            'status' => true,
+            'message' => 'user logged out',
+            'data' => [],
+        ]);
+    }
 }

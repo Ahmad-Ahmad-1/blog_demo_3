@@ -20,7 +20,13 @@
                     <label for="{{ $role->name }}" class="h4">Role:</label>
                     <x-text-input name="name" value="{{ $role->name }}" class="form-control mt-2 mb-2"
                         id="{{ $role->name }}" />
-                    <x-input-error :messages="$errors->get('name')" />
+
+                    {{-- @error('name')
+                        <div class="alert alert-danger"> There is an error </div>
+                    @enderror --}}
+                    {{-- <x-input-error :messages="$errors->get('name')" /> --}}
+
+                    <x-input-error :messages="session()->get('name')" />
                 </div>
 
                 <div class="mt-3">
@@ -35,7 +41,9 @@
                         </div>
                     @endforeach
 
-                    <x-input-error :messages="$errors->get('permissions')" />
+                    {{-- <x-input-error :messages="$errors->get('permissions')" /> --}}
+
+                    <x-input-error :messages="session()->get('permissions')" />
                 </div>
 
                 <button type="submit" class="btn btn-success mt-3">Update</button>

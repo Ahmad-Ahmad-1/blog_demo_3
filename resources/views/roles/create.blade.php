@@ -18,7 +18,8 @@
                 <div>
                     <label for="name" class="h4">Role:</label>
                     <x-text-input name="name" id="name" class="mt-2 mb-2 form-control" value="{{ @old('name') }}" />
-                    <x-input-error :messages="$errors->get('name')" />
+                    <x-input-error :messages="session()->get('name')" />
+                    {{-- <x-input-error :messages="$errors->get('name')" /> --}}
                 </div>
 
                 <div>
@@ -33,7 +34,8 @@
                         </div>
                     @endforeach
 
-                    <x-input-error :messages="$errors->get('permissions')" />
+                    <x-input-error :messages="session()->get('permissions')" />
+                    {{-- <x-input-error :messages="$errors->get('permissions')" /> --}}
 
                 </div>
 
