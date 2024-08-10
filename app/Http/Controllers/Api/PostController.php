@@ -76,8 +76,6 @@ class PostController extends Controller implements HasMiddleware
         return response()->json([
             'post' => new PostResource($post),
         ]);
-
-        // return view('posts.show');
     }
 
     public function edit(Post $post)
@@ -95,18 +93,17 @@ class PostController extends Controller implements HasMiddleware
             $post->clearMediaCollection('imgs');
 
             $post->addMediaFromRequest('img')
-                ->withResponsiveImages()
                 ->usingName($post->title)
                 ->toMediaCollection('imgs');
         } else {
-            $post->deleteMedia('imgs');
+            if ($post->hasMedia('imgs')) {
+                $post->clearMediaCollection('imgs');
+            }
         }
 
         return response()->json([
             'post' => new PostResource($post)
         ]);
-
-        // return to_route('posts.show', [$post->id])->with('status', 'Post Updated Successfully');
     }
 
     public function destroy(Post $post)
@@ -116,8 +113,6 @@ class PostController extends Controller implements HasMiddleware
         return response()->json([
             'message' => 'post has been deleted successfully'
         ]);
-
-        // return to_route(session('redirect-posts-route'))->with('status', 'Post has been deleted successfully');
     }
 
     public function search(Request $request)
@@ -135,9 +130,9 @@ class PostController extends Controller implements HasMiddleware
     public static function middleware()
     {
         return [
-            new Middleware('permission:Create Post', only: ['create', 'store', 'myPosts']),
-            new Middleware('permission:Edit Post', only: ['edit', 'update']),
-            new Middleware('permission:Delete Post', only: ['destroy']),
+            new Middleware('permission:Create Post', only: ['create', 'store', 'myPosts', 'search']),
+            new Middleware('permission:Edit Post', only: ['edit', 'update', 'search']),
+            new Middleware('permission:Delete Post', only: ['destroy', 'search']),
         ];
     }
 }

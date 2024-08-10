@@ -6,9 +6,12 @@ use App\Http\Controllers\api\PostController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Auth\NewPasswordController;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+Route::post('/forgot-password', [NewPasswordController::class, 'forgotPassword']);
 
 Route::get('/', [PostController::class, 'latestPosts'])->name('home');
 Route::resource('/posts', PostController::class)->only('index');
@@ -23,11 +26,13 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('/posts/my-posts', [PostController::class, 'myPosts'])->name('posts.my_posts');
   Route::resource('/posts', PostController::class)->except(['show', 'index']);
 
-  Route::get('/roles/search', [RoleController::class, 'search'])->name('roles.search');
-  Route::resource('/roles', RoleController::class);
+  // Route::get('/roles/search', [RoleController::class, 'search'])->name('roles.search');
+  // Route::resource('/roles', RoleController::class);
 
   Route::get('/users/search', [UserController::class, 'search'])->name('users.search');
   Route::resource('/users', UserController::class);
+
+  Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 Route::resource('/posts', PostController::class)->only('show');

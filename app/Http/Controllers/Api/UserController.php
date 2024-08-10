@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\UserUpdateRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -20,7 +21,12 @@ class UserController extends Controller implements HasMiddleware
         //     'users' => $users
         // ]);
 
-        return view('users.index', ['users' => $users]);
+        // return view('users.index', ['users' => $users]);
+
+        return response()->json([
+            'users' => UserResource::collection($users),
+            'current_page' => $users->currentPage()
+        ]);
     }
 
     public function create()
@@ -39,7 +45,12 @@ class UserController extends Controller implements HasMiddleware
         //     'user' => $user
         // ]);
 
-        return view('users.show', ['user' => $user]);
+        // return view('users.show', ['user' => $user]);
+
+        return response()->json([
+            'user' => new UserResource($user)
+            // 'current_page' => $users->currentPage()
+        ]);
     }
 
     public function edit(User $user)
@@ -48,7 +59,12 @@ class UserController extends Controller implements HasMiddleware
 
         $userRoles = $user->getRoleNames()->toArray();
 
-        return view('users.edit', ['user' => $user, 'allRoles' => $allRoles, 'userRoles' => $userRoles]);
+        return response()->json([
+            'allRoles' => $allRoles,
+            'userRole' => $userRoles
+        ]);
+
+        // return view('users.edit', ['user' => $user, 'allRoles' => $allRoles, 'userRoles' => $userRoles]);
     }
 
     public function update(User $user, UserUpdateRequest $request)
@@ -57,17 +73,22 @@ class UserController extends Controller implements HasMiddleware
 
         $user->syncRoles($request->safe()->only('roles'));
 
-        return to_route('users.edit', $user->id)->with('User Update Success', 'User has been updated successfully');
+        return response()->json([
+            'message' => 'user has been updated successfully'
+        ]);
+
+        // return to_route('users.edit', $user->id)->with('User Update Success', 'User has been updated successfully');
     }
 
     public function destroy(User $user)
     {
         $user->delete();
 
-        return to_route('users.index');
+        return response()->json([
+            'message' => 'user has been deleted successfully'
+        ]);
 
-        // Maybe we'll return to a URL?
-        // return to_route('users.index')->with('User Deletion Success', 'User has been deleted successfully');
+        // return to_route('users.index');
     }
 
     public function search(Request $request)
@@ -76,17 +97,23 @@ class UserController extends Controller implements HasMiddleware
 
         $users = User::where('name', 'like', "%$search%")->paginate(5);
 
-        return response()->json(['users' => $users]);
+        return response()->json([
+            'user' => UserResource::collection($users),
+            'current_page' => $users->currentPage()
+            // 'current_page' => $users->currentPage()
+        ]);
 
-        return view('users.search-results', ['users' => $users]);
+        // return response()->json(['users' => $users]);
+
+        // return view('users.search-results', ['users' => $users]);
     }
 
     public static function middleware()
     {
         return [
-            new Middleware('permission:Edit User|Delete User', only: ['index', 'show']),
-            new Middleware('permission:Edit User', only: ['edit', 'update']),
-            new Middleware('permission:Delete User', only: ['destroy'])
+            new Middleware('permission:Edit User|Delete User', only: ['index', 'show', 'search']),
+            new Middleware('permission:Edit User', only: ['edit', 'update', 'search']),
+            new Middleware('permission:Delete User', only: ['destroy', 'search'])
         ];
     }
 }

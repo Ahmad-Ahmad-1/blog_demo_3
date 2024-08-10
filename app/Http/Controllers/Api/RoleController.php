@@ -15,7 +15,13 @@ class RoleController extends Controller implements HasMiddleware
 {
     public function index()
     {
-        return view('roles.index', ['roles' => Role::paginate(5)]);
+        // return view('roles.index', ['roles' => Role::paginate(5)]);
+
+        $roles = Role::paginate(5);
+
+        return response()->json([
+            'roles' => $roles
+        ]);
     }
 
     public function show(Role $role)
