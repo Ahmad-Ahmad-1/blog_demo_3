@@ -1,4 +1,10 @@
-<x-app-layout title="{{ $user->name }}">
+{{-- <x-app-layout title="{{ $user->name }}"> --}}
+
+@extends('layouts.app')
+
+@section('title', $user->name)
+
+@section('content')
 
     <div class="card w-50 m-auto mt-3">
 
@@ -49,5 +55,7 @@
 
     </div>
 
+@endsection
 
-</x-app-layout>
+
+{{-- </x-app-layout> --}}

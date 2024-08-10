@@ -19,10 +19,10 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
   Route::patch('/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update_password');
   Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-  
+
   Route::get('/posts/my-posts', [PostController::class, 'myPosts'])->name('posts.my_posts');
   Route::resource('/posts', PostController::class)->except(['show', 'index']);
-  
+
   Route::get('/roles/search', [RoleController::class, 'search'])->name('roles.search');
   Route::resource('/roles', RoleController::class);
 
@@ -31,16 +31,3 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::resource('/posts', PostController::class)->only('show');
-
-// Route::get('/app', function () {
-//   return view('roles.index');
-// });
-
-/*
-  Roles:
-
-  - will sessions work on create and edit files?
-
-  store: route not found.
-
-*/

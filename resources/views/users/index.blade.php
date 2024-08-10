@@ -1,4 +1,10 @@
-<x-app-layout title="Manage Users">
+{{-- <x-app-layout title="Manage Users"> --}}
+
+@extends('layouts.app')
+
+@section('title', 'Manage Users')
+
+@section('content')
 
     <x-search :action="route('users.search')" placeholder="Search Users" />
 
@@ -33,8 +39,7 @@
 
                             @if ($user->hasRole('Super Admin'))
                                 @if (auth()->user()->hasRole('Super Admin'))
-                                    <a href="{{ route('users.edit', $user->id) }}"
-                                        class="btn btn-primary fw-bold">Edit</a>
+                                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary fw-bold">Edit</a>
                                 @endif
                             @else
                                 @can('Edit User')
@@ -42,8 +47,7 @@
                                 @endcan
                                 @can('Delete User')
                                     @if ($user->id != auth()->user()->id)
-                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST"
-                                            class="d-inline">
+                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('delete')
                                             <button class="btn btn-danger fw-bold" type="submit">Delete</button>
@@ -62,4 +66,6 @@
 
     </div>
 
-</x-app-layout>
+@endsection
+
+{{-- </x-app-layout> --}}

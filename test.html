@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="">
+    <meta name="csrf-token" content="VWivRCNUDRG7b37lq93yheAmvE2zXtaVmaeJC38d">
 
-    <title> Search Results </title>
+    <title> Manage Users </title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -66,7 +66,7 @@
                         </div>
 
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                            <a class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
+                            <a class="inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out"
                                 href="http://127.0.0.1:8000/api/users">
                                 Manage Users
                             </a>
@@ -157,21 +157,18 @@
         <main>
 
             <nav class="navbar m-auto mt-3 d-flex justify-content-center flex-column">
-                <form action="http://127.0.0.1:8000/api/roles/search" method="GET" class="d-flex" role="search">
-                    <input  class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm form-control me-2" type="text" name="search" placeholder="Search Roles" aria-label="Search" required="required">
+                <form action="http://127.0.0.1:8000/api/users/search" method="GET" class="d-flex" role="search">
+                    <input  class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm form-control me-2" type="text" name="search" placeholder="Search Users" aria-label="Search" required="required">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
             </nav>
             <div>
-
-                <div class="text-center mt-3">
-                    <a class="btn btn-success m-auto" href="http://127.0.0.1:8000/api/roles/create">Create Role</a>
-                </div>
-
-                <table class="table w-50 m-auto mt-3 w-fit p-2">
+                <table class="table w-75 m-auto mt-3 w-fit p-2">
                     <thead class="table-dark">
                         <tr>
                             <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
                             <th>Roles</th>
                             <th>Actions</th>
                         </tr>
@@ -180,25 +177,46 @@
 
                         <tr>
                             <td>1</td>
+                            <td>Admin 1</td>
+                            <td>admin@example.com</td>
+
                             <td>
-                                Super Admin
+                                <span class="badge bg-primary">Admin</span>
                             </td>
+
                             <td>
-                                <a href="http://127.0.0.1:8000/api/roles/1" class="btn btn-primary">Show</a>
+                                <a href="http://127.0.0.1:8000/api/users/6" class="btn btn-primary fw-bold">Show</a>
+
+                                <a href="http://127.0.0.1:8000/api/users/6/edit"
+                                    class="btn btn-primary fw-bold">Edit</a>
+                                <form action="http://127.0.0.1:8000/api/users/6" method="POST" class="d-inline">
+                                    <input type="hidden" name="_token" value="VWivRCNUDRG7b37lq93yheAmvE2zXtaVmaeJC38d" autocomplete="off">
+                                    <input type="hidden" name="_method" value="delete">
+                                    <button class="btn btn-danger fw-bold" type="submit">Delete</button>
+                                </form>
                             </td>
                         </tr>
                         <tr>
                             <td>2</td>
+                            <td>Super Admin 1</td>
+                            <td>superadmin@example.com</td>
+
                             <td>
-                                Admin
+                                <span class="badge bg-primary">Super Admin</span>
                             </td>
+
                             <td>
-                                <a href="http://127.0.0.1:8000/api/roles/2" class="btn btn-primary">Show</a>
+                                <a href="http://127.0.0.1:8000/api/users/7" class="btn btn-primary fw-bold">Show</a>
+
+                                <a href="http://127.0.0.1:8000/api/users/7/edit"
+                                    class="btn btn-primary fw-bold">Edit</a>
                             </td>
                         </tr>
 
                     </tbody>
                 </table>
+
+
 
             </div>
 

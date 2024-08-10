@@ -16,11 +16,11 @@ class UserController extends Controller implements HasMiddleware
     {
         $users = User::latest()->paginate(5);
 
-        return response()->json([
-            'users' => $users
-        ]);
+        // return response()->json([
+        //     'users' => $users
+        // ]);
 
-        // return view('users.index', ['users' => $users]);
+        return view('users.index', ['users' => $users]);
     }
 
     public function create()
@@ -35,20 +35,21 @@ class UserController extends Controller implements HasMiddleware
 
     public function show(User $user)
     {
-        return response()->json([
-            'user' => $user
-        ]);
-        // return view('users.show', ['user' => $user]);
+        // return response()->json([
+        //     'user' => $user
+        // ]);
+
+        return view('users.show', ['user' => $user]);
     }
 
-    // public function edit(User $user)
-    // {
-    //     $allRoles = Role::pluck('name')->toArray();
+    public function edit(User $user)
+    {
+        $allRoles = Role::pluck('name')->toArray();
 
-    //     $userRoles = $user->getRoleNames()->toArray();
+        $userRoles = $user->getRoleNames()->toArray();
 
-    //     return view('users.edit', ['user' => $user, 'allRoles' => $allRoles, 'userRoles' => $userRoles]);
-    // }
+        return view('users.edit', ['user' => $user, 'allRoles' => $allRoles, 'userRoles' => $userRoles]);
+    }
 
     public function update(User $user, UserUpdateRequest $request)
     {
@@ -56,11 +57,15 @@ class UserController extends Controller implements HasMiddleware
 
         $user->syncRoles($request->safe()->only('roles'));
 
-        // return to_route('users.edit', $user->id)->with('User Update Success', 'User has been updated successfully');
+        return to_route('users.edit', $user->id)->with('User Update Success', 'User has been updated successfully');
     }
 
-    public function destroy()
+    public function destroy(User $user)
     {
+        $user->delete();
+
+        return to_route('users.index');
+
         // Maybe we'll return to a URL?
         // return to_route('users.index')->with('User Deletion Success', 'User has been deleted successfully');
     }
@@ -73,7 +78,7 @@ class UserController extends Controller implements HasMiddleware
 
         return response()->json(['users' => $users]);
 
-        // return view('users.search-results', ['users' => $users]);
+        return view('users.search-results', ['users' => $users]);
     }
 
     public static function middleware()

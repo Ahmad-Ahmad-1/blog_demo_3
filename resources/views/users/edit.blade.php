@@ -1,4 +1,10 @@
-<x-app-layout title="Edit {{ $user->name }}">
+{{-- <x-app-layout title="Edit {{ $user->name }}"> --}}
+
+    @extends('layouts.app')
+
+    @section('title', $user->name)
+
+    @section('content')
 
     <x-flash-messages type="success" class="w-50" />
 
@@ -12,7 +18,7 @@
                 <div>
                     <label for="name" class="h4">Name</label>
                     <x-text-input name="name" class="form-control" value="{{ $user->name }}" />
-                    <x-input-error :messages="$errors->get('name')" />
+                    <x-input-error :messages="session()->get('name')" />
                 </div>
 
                 <div class="mt-3">
@@ -27,7 +33,7 @@
                         </div>
                     @endforeach
 
-                    <x-input-error :messages="$errors->get('roles')" />
+                    <x-input-error :messages="session()->get('roles')" />
                 </div>
 
                 <button type="submit" class="btn btn-primary mt-3 fw-bold">Update</button>
@@ -36,4 +42,7 @@
 
         </div>
     </div>
-</x-app-layout>
+
+    @endsection
+
+{{-- </x-app-layout> --}}
